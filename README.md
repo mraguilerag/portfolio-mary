@@ -15,3 +15,7 @@ Portafolio personal de diseño UX/UI y desarrollo Front-End. Presenta mi perfil,
 ```bash
 npm install
 npm run dev
+```
+## Estado
+
+Proyecto en desarrollo. Próximamente se añadirá el enlace a la versión publicada.
