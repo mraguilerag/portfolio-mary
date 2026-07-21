@@ -3,35 +3,37 @@ import { profile } from '../data/profile'
 export default function Contact() {
   return (
     <section id="contact" className="section contact">
-      <div className="glass contact-panel reveal">
-        <p className="eyebrow">Contacto</p>
-        <h2 className="section-title">
-          Construyamos algo <span className="gradient-text">juntos</span>.
-        </h2>
-        <p className="contact-text">
-          Estoy abierta a prácticas, proyectos freelance y colaboraciones. Escríbeme y te respondo pronto.
-        </p>
+      <p className="eyebrow reveal">Contacto</p>
+      <h2 className="contact-title reveal">
+        {profile.contactTitleLines.map((line) => (
+          <span key={line} className="contact-title-line">
+            {line}
+          </span>
+        ))}
+      </h2>
 
-        <div className="contact-actions">
-          <a href={`mailto:${profile.email}`} className="btn btn-primary">
-            {profile.email}
-          </a>
-        </div>
+      <p className="contact-text reveal">{profile.contactText}</p>
 
-        <ul className="contact-socials">
-          {profile.socials.map((social) => (
-            <li key={social.label}>
-              <a href={social.url} target="_blank" rel="noreferrer">
-                {social.label}
-              </a>
-            </li>
-          ))}
-        </ul>
+      <div className="contact-actions reveal">
+        <a href={`mailto:${profile.email}`} className="contact-email">
+          {profile.email}
+        </a>
+
+        {profile.socials.length > 0 && (
+          <ul className="contact-socials">
+            {profile.socials.map((social) => (
+              <li key={social.label}>
+                <a href={social.url} target="_blank" rel="noreferrer">
+                  {social.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
 
       <footer className="footer">
-        <span>© {new Date().getFullYear()} {profile.name}</span>
-        <span>{profile.location}</span>
+        <p>{profile.footerText}</p>
       </footer>
     </section>
   )

@@ -1,10 +1,10 @@
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
-import About from './components/About'
 import Projects from './components/Projects'
-import Experience from './components/Experience'
+import About from './components/About'
+import Process from './components/Process'
+import Journey from './components/Journey'
 import Contact from './components/Contact'
-import CursorGlow from './components/CursorGlow'
 import { useScrollReveal } from './hooks/useScrollReveal'
 
 function App() {
@@ -12,13 +12,16 @@ function App() {
 
   return (
     <>
-      <CursorGlow />
+      <a href="#main-content" className="skip-link">
+        Saltar al contenido
+      </a>
       <Navbar />
-      <main>
+      <main id="main-content">
         <Hero />
-        <About />
         <Projects />
-        <Experience />
+        <About />
+        <Process />
+        <Journey />
         <Contact />
       </main>
     </>
