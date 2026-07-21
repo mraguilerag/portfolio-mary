@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
-import Monogram from './Monogram'
+import HeroAvatarStage from './HeroAvatarStage'
 import { profile } from '../data/profile'
 
 export default function Hero() {
@@ -62,6 +62,10 @@ export default function Hero() {
           </span>
         </h1>
 
+        <div className="hero-avatar" data-hero-entry>
+          <HeroAvatarStage />
+        </div>
+
         <div className="hero-role" data-hero-entry>
           {profile.roleLines.map((line) => (
             <p key={line} className="hero-role-line">
@@ -77,10 +81,6 @@ export default function Hero() {
         <a href="#projects" className="hero-link" data-hero-entry>
           Explorar proyectos <span aria-hidden="true">↘</span>
         </a>
-
-        <div className="hero-monogram" data-hero-entry>
-          <Monogram />
-        </div>
       </div>
     </section>
   )

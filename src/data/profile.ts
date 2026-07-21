@@ -96,7 +96,7 @@ export const projects: Project[] = [
     title: 'Michi Gastos',
     year: '2026',
     status: 'EN LÍNEA',
-    role: 'Diseño y construcción de una herramienta personal, con apoyo de herramientas de IA en la implementación.',
+    role: 'Diseño de interfaz y construcción Front-End de una herramienta personal para organizar y visualizar gastos.',
     problem:
       'Aplicación web personal para calcular y visualizar gastos diarios, semanales y mensuales de forma simple y visual.',
     tools: ['React', 'Vite', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'React Three Fiber'],
@@ -108,10 +108,10 @@ export const projects: Project[] = [
     title: 'LEDCAM',
     year: '2026—ACTUALIDAD',
     status: 'PROYECTO EN CURSO',
-    role: 'Diseño UX/UI de producto digital, integrando herramientas de IA en el flujo de trabajo.',
+    role: 'Investigación, arquitectura de información, user flows, wireframes, prototipado y diseño de interfaces para una plataforma de iluminación y energía solar.',
     problem:
       'Plataforma web para una empresa de iluminación y paneles solares. El objetivo es dar forma a un producto digital claro para presentar y gestionar su oferta.',
-    tools: ['UI Design', 'Producto digital', 'IA en el flujo de diseño'],
+    tools: ['UX Research', 'Information Architecture', 'User Flows', 'Wireframing', 'Prototyping', 'UI Design'],
   },
   {
     id: 'recetas',

@@ -2,14 +2,16 @@ import { useEffect, useRef, useState } from 'react'
 import { profile } from '../data/profile'
 
 const links = [
-  { number: '01', label: 'PROYECTOS', href: '#projects' },
-  { number: '02', label: 'PERFIL', href: '#profile' },
-  { number: '03', label: 'TRAYECTORIA', href: '#journey' },
-  { number: '04', label: 'CONTACTO', href: '#contact' },
+  { number: '01', label: 'PROYECTOS', href: '#projects', id: 'projects' },
+  { number: '02', label: 'PERFIL', href: '#profile', id: 'profile' },
+  { number: '03', label: 'TRAYECTORIA', href: '#journey', id: 'journey' },
+  { number: '04', label: 'CONTACTO', href: '#contact', id: 'contact' },
 ]
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
+  const [isScrolled, setIsScrolled] = useState(false)
+  const [activeSection, setActiveSection] = useState<string | null>(null)
   const closeButtonRef = useRef<HTMLButtonElement>(null)
   const menuButtonRef = useRef<HTMLButtonElement>(null)
 
@@ -34,8 +36,34 @@ export default function Navbar() {
     }
   }, [isOpen])
 
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 8)
+    handleScroll()
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  useEffect(() => {
+    const sections = links
+      .map((link) => document.getElementById(link.id))
+      .filter((el): el is HTMLElement => el !== null)
+    if (sections.length === 0) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
+        if (visible) setActiveSection(visible.target.id)
+      },
+      { rootMargin: '-35% 0px -55% 0px', threshold: [0, 0.25, 0.5, 0.75, 1] },
+    )
+    sections.forEach((section) => observer.observe(section))
+    return () => observer.disconnect()
+  }, [])
+
   return (
-    <header className="navbar">
+    <header className={`navbar ${isScrolled ? 'navbar--scrolled' : ''}`}>
       <a href="#top" className="navbar-mark">
         M/A
       </a>
@@ -44,14 +72,14 @@ export default function Navbar() {
 
       <nav className="navbar-links" aria-label="Navegación principal">
         {links.map((link) => (
-          <a key={link.href} href={link.href} className="navbar-link">
+          <a
+            key={link.href}
+            href={link.href}
+            className="navbar-link"
+            aria-current={activeSection === link.id ? 'true' : undefined}
+          >
             <span className="navbar-link-number">{link.number}</span>
-            <span className="navbar-link-mask">
-              <span className="navbar-link-label">{link.label}</span>
-              <span className="navbar-link-label" aria-hidden="true">
-                {link.label}
-              </span>
-            </span>
+            <span className="navbar-link-label">{link.label}</span>
           </a>
         ))}
       </nav>

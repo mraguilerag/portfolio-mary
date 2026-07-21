@@ -5,49 +5,61 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 gsap.registerPlugin(ScrollTrigger)
 
 /**
- * useScrollReveal
- * ---------------------------------------------------------------------------
- * Anima con GSAP + ScrollTrigger (plugin gratuito, sin GSAP Club) todos los
- * elementos con la clase `.reveal` a medida que entran en viewport, y hace
- * un stagger sobre los hijos directos de `.reveal-group`.
- * Se ejecuta una vez montado el árbol (por eso corre en App, después del
- * primer render de todas las secciones).
+ * Reveals `.reveal` elements (and staggered children of `.reveal-group`) as
+ * they scroll into view. The hidden "from" state is only ever applied inside
+ * each trigger's onEnter callback — never up front — so if a trigger's
+ * position is ever miscalculated (e.g. because the lazily-loaded hero avatar
+ * or web fonts shift layout after this effect runs), the element simply
+ * stays at its normal, visible CSS state instead of getting stuck invisible.
  */
 export function useScrollReveal() {
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-      if (prefersReducedMotion) return
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (prefersReducedMotion) return
 
-      gsap.utils.toArray<HTMLElement>('.reveal').forEach((el) => {
-        gsap.from(el, {
-          opacity: 0,
-          y: 36,
-          duration: 0.9,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: el,
-            start: 'top 85%',
-          },
-        })
-      })
+    const triggers: ScrollTrigger[] = []
 
-      gsap.utils.toArray<HTMLElement>('.reveal-group').forEach((group) => {
-        const children = group.children
-        gsap.from(children, {
-          opacity: 0,
-          y: 28,
-          duration: 0.8,
-          ease: 'power3.out',
-          stagger: 0.12,
-          scrollTrigger: {
-            trigger: group,
-            start: 'top 85%',
+    gsap.utils.toArray<HTMLElement>('.reveal').forEach((el) => {
+      triggers.push(
+        ScrollTrigger.create({
+          trigger: el,
+          start: 'top 88%',
+          once: true,
+          onEnter: () => {
+            gsap.fromTo(el, { opacity: 0, y: 36 }, { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out' })
           },
-        })
-      })
+        }),
+      )
     })
 
-    return () => ctx.revert()
+    gsap.utils.toArray<HTMLElement>('.reveal-group').forEach((group) => {
+      triggers.push(
+        ScrollTrigger.create({
+          trigger: group,
+          start: 'top 88%',
+          once: true,
+          onEnter: () => {
+            gsap.fromTo(
+              group.children,
+              { opacity: 0, y: 28 },
+              { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', stagger: 0.12 },
+            )
+          },
+        }),
+      )
+    })
+
+    const refresh = () => ScrollTrigger.refresh()
+    document.fonts?.ready.then(refresh).catch(() => {})
+    window.addEventListener('load', refresh)
+
+    const resizeObserver = new ResizeObserver(() => refresh())
+    resizeObserver.observe(document.body)
+
+    return () => {
+      triggers.forEach((trigger) => trigger.kill())
+      window.removeEventListener('load', refresh)
+      resizeObserver.disconnect()
+    }
   }, [])
 }
