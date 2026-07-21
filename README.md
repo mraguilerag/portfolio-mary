@@ -7,7 +7,6 @@ Portafolio personal de diseño UX/UI y desarrollo Front-End. Presenta mi perfil,
 - React
 - TypeScript
 - Vite
-- Three.js
 - GSAP
 
 ## Ejecutar el proyecto
@@ -15,3 +14,8 @@ Portafolio personal de diseño UX/UI y desarrollo Front-End. Presenta mi perfil,
 ```bash
 npm install
 npm run dev
+```
+
+## Estado
+
+Publicado en [maryui.vercel.app](https://maryui.vercel.app/).
