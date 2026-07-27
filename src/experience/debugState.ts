@@ -7,5 +7,6 @@ export const debugState = {
   avatarRotation: { x: 0, y: 0, z: 0 },
   deskVisible: true,
   hologramProgress: 0,
+  activeClip: 'procedural-idle',
   fps: 0,
 }

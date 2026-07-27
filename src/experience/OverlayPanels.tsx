@@ -4,18 +4,22 @@ import { profile, projects } from '../data/profile'
 
 function applyPanelStyle(el: HTMLElement | null, weight: number, offset = 24) {
   if (!el) return
+  const isVisible = weight > 0.05
   el.style.opacity = String(weight)
   el.style.transform = `translateY(${(1 - weight) * offset}px)`
   el.style.pointerEvents = weight > 0.4 ? 'auto' : 'none'
+  el.inert = !isVisible
+  el.setAttribute('aria-hidden', String(!isVisible))
 }
 
-export default function OverlayPanels() {
+export default function OverlayPanels({ active }: { active: boolean }) {
   const heroRef = useRef<HTMLDivElement>(null)
   const scrollHintRef = useRef<HTMLDivElement>(null)
   const profileRef = useRef<HTMLDivElement>(null)
   const projectsRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    if (!active) return
     let frame = 0
     const tick = () => {
       const w = scrollProgress.weights
@@ -27,7 +31,7 @@ export default function OverlayPanels() {
     }
     frame = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(frame)
-  }, [])
+  }, [active])
 
   return (
     <div className="xp-overlay">
@@ -50,12 +54,12 @@ export default function OverlayPanels() {
         <span className="xp-scroll-hint-line" aria-hidden="true" />
       </div>
 
-      <div ref={profileRef} className="xp-panel xp-panel-profile">
+      <div ref={profileRef} className="xp-panel xp-panel-profile" aria-hidden="true">
         <p className="xp-panel-kicker">{profile.aboutTitleLines[0]}</p>
         <p className="xp-panel-body">{profile.aboutParagraphs[0]}</p>
       </div>
 
-      <div ref={projectsRef} className="xp-panel xp-panel-projects">
+      <div ref={projectsRef} className="xp-panel xp-panel-projects" aria-hidden="true">
         <p className="xp-panel-kicker">{profile.processTitle}</p>
         <p className="xp-panel-body">
           {projects[0].title} · {projects[1].title} · {projects[2].title}

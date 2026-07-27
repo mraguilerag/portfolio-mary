@@ -7,11 +7,13 @@ import { cameraWaypointsDesktop, cameraWaypointsMobile } from './cameraWaypoints
 import { debugState } from './debugState'
 
 interface ExperienceCanvasProps {
+  active: boolean
   isMobile: boolean
   reducedMotion: boolean
+  onReady?: () => void
 }
 
-export default function ExperienceCanvas({ isMobile, reducedMotion }: ExperienceCanvasProps) {
+export default function ExperienceCanvas({ active, isMobile, reducedMotion, onReady }: ExperienceCanvasProps) {
   const pointerRef: MutableRefObject<{ x: number; y: number }> = useRef({ x: 0, y: 0 })
   const [isTabVisible, setIsTabVisible] = useState(() => !document.hidden)
   // ?debugExperience=1 keeps the frameloop alive even if the Page Visibility
@@ -49,12 +51,17 @@ export default function ExperienceCanvas({ isMobile, reducedMotion }: Experience
   return (
     <Canvas
       dpr={dpr}
-      gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}
+      gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
       shadows={false}
-      frameloop={isTabVisible || forceActive ? 'always' : 'never'}
+      frameloop={(isTabVisible && active) || forceActive ? 'always' : 'never'}
       onCreated={({ gl, size }) => {
-        gl.setClearColor('#0a0a0a')
+        // Transparent clear so the page's cursor-following ambient glow
+        // (AmbientBackground, position:fixed behind everything) shows
+        // through the scene instead of being hidden behind an opaque canvas
+        // for the whole ~560vh height of the hero experience.
+        gl.setClearColor('#0a0a0a', 0)
         debugState.fps = 0
+        onReady?.()
         void size
       }}
     >

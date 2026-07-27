@@ -11,6 +11,7 @@ interface Snapshot {
   avatarRot: string
   desk: boolean
   hologram: number
+  activeClip: string
   fps: number
   dpr: number
   viewport: string
@@ -26,6 +27,7 @@ function readSnapshot(fps: number): Snapshot {
     avatarRot: debugState.avatarRotation.y.toFixed(2),
     desk: debugState.deskVisible,
     hologram: debugState.hologramProgress,
+    activeClip: debugState.activeClip,
     fps,
     dpr: window.devicePixelRatio,
     viewport: `${window.innerWidth}x${window.innerHeight}`,
@@ -73,6 +75,7 @@ export default function DebugHud() {
       <div>avatar rot.y: {snapshot.avatarRot}</div>
       <div>desk visible: {String(snapshot.desk)}</div>
       <div>hologram: {(snapshot.hologram * 100).toFixed(0)}%</div>
+      <div>clip: {snapshot.activeClip}</div>
       <div>fps: {snapshot.fps}</div>
       <div>dpr: {snapshot.dpr}</div>
       <div>viewport: {snapshot.viewport}</div>

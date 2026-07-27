@@ -27,11 +27,8 @@ function useBlendedGroup(waypoints: Parameters<typeof blendTransform>[0]) {
 
 function DeskGroup() {
   const ref = useBlendedGroup(deskWaypoints)
-  useFrame(() => {
-    debugState.deskVisible = experienceConfig.showDesk
-  })
   return (
-    <group ref={ref}>
+    <group ref={ref} name="DeskSurfaceGroup">
       <mesh receiveShadow castShadow>
         <boxGeometry args={[1.1, 0.06, 0.6]} />
         <meshStandardMaterial color="#2a2a2a" roughness={0.5} />
@@ -115,7 +112,7 @@ function DecorationsGroup() {
 function FloorAndBackdrop() {
   const ref = useBlendedGroup(environmentWaypoints)
   return (
-    <group ref={ref}>
+    <group ref={ref} name="EnvironmentGroup">
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.5, 0]} receiveShadow>
         <circleGeometry args={[3.2, 48]} />
         <meshStandardMaterial color="#0c0c0c" roughness={0.9} />
@@ -129,16 +126,20 @@ function FloorAndBackdrop() {
 }
 
 export default function EnvironmentRig() {
+  useFrame(() => {
+    debugState.deskVisible = experienceConfig.showDesk
+  })
+
   return (
     <>
       {experienceConfig.showEnvironment && <FloorAndBackdrop />}
       {experienceConfig.showDesk && (
-        <>
+        <group name="DeskGroup">
           <DeskGroup />
           <ChairGroup />
           <ScreenGroup />
           <DecorationsGroup />
-        </>
+        </group>
       )}
     </>
   )

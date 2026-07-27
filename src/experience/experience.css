@@ -1,7 +1,6 @@
 .xp-root {
   position: relative;
   width: 100%;
-  background: #0a0a0a;
 }
 
 .xp-scroll-space {
@@ -13,15 +12,65 @@
   position: sticky;
   top: 0;
   height: 100vh;
+  height: 100svh;
   width: 100%;
   overflow: hidden;
-  background: #0a0a0a;
+}
+
+.xp-root--static .xp-scroll-space {
+  height: auto;
+}
+
+.xp-root--static .xp-sticky {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  height: auto;
+  overflow: visible;
+}
+
+.xp-canvas-shell {
+  position: absolute;
+  inset: 0;
 }
 
 .xp-sticky canvas {
   position: absolute;
   inset: 0;
   display: block;
+}
+
+.xp-canvas-loading {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 14px;
+  color: #cfcac0;
+  background: #0a0a0a;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.xp-canvas-loading-mark {
+  width: 28px;
+  height: 28px;
+  border: 1px solid #b9a0ff;
+  animation: xp-loading-turn 1.2s ease-in-out infinite;
+}
+
+@keyframes xp-loading-turn {
+  50% {
+    border-color: #ff4d5a;
+    border-radius: 50%;
+    transform: rotate(135deg) scale(0.72);
+  }
+  100% {
+    transform: rotate(270deg);
+  }
 }
 
 .xp-overlay {

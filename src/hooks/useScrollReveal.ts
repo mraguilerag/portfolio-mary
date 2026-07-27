@@ -18,6 +18,7 @@ export function useScrollReveal() {
     if (prefersReducedMotion) return
 
     const triggers: ScrollTrigger[] = []
+    const tweens: gsap.core.Tween[] = []
 
     gsap.utils.toArray<HTMLElement>('.reveal').forEach((el) => {
       triggers.push(
@@ -26,7 +27,9 @@ export function useScrollReveal() {
           start: 'top 88%',
           once: true,
           onEnter: () => {
-            gsap.fromTo(el, { opacity: 0, y: 36 }, { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out' })
+            tweens.push(
+              gsap.fromTo(el, { opacity: 0, y: 36 }, { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out' }),
+            )
           },
         }),
       )
@@ -39,10 +42,12 @@ export function useScrollReveal() {
           start: 'top 88%',
           once: true,
           onEnter: () => {
-            gsap.fromTo(
-              group.children,
-              { opacity: 0, y: 28 },
-              { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', stagger: 0.12 },
+            tweens.push(
+              gsap.fromTo(
+                group.children,
+                { opacity: 0, y: 28 },
+                { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', stagger: 0.12 },
+              ),
             )
           },
         }),
@@ -58,6 +63,7 @@ export function useScrollReveal() {
 
     return () => {
       triggers.forEach((trigger) => trigger.kill())
+      tweens.forEach((tween) => tween.kill())
       window.removeEventListener('load', refresh)
       resizeObserver.disconnect()
     }

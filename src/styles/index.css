@@ -37,6 +37,10 @@ html {
   scroll-behavior: smooth;
 }
 
+html.lenis {
+  scroll-behavior: auto;
+}
+
 body {
   margin: 0;
   background: var(--color-bg);
@@ -201,9 +205,12 @@ img {
    Navbar
    ========================================================================== */
 .navbar {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 100;
+  width: 100%;
   display: grid;
   grid-template-columns: auto 1fr auto auto;
   align-items: center;
