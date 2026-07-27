@@ -1,0 +1,179 @@
+.xp-root {
+  position: relative;
+  width: 100%;
+  background: #0a0a0a;
+}
+
+.xp-scroll-space {
+  position: relative;
+  height: 560vh;
+}
+
+.xp-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  background: #0a0a0a;
+}
+
+.xp-sticky canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+.xp-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
+  font-family: 'Inter', system-ui, sans-serif;
+  color: #f4f1ec;
+}
+
+.xp-panel {
+  position: absolute;
+  max-width: min(520px, 86vw);
+  will-change: transform, opacity;
+}
+
+.xp-panel-hero {
+  top: 14vh;
+  left: clamp(24px, 6vw, 96px);
+}
+
+.xp-eyebrow {
+  letter-spacing: 0.3em;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: #b9a0ff;
+  margin: 0 0 0.75rem;
+}
+
+.xp-name {
+  font-size: clamp(2.6rem, 7vw, 5rem);
+  line-height: 0.95;
+  margin: 0 0 1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.xp-role p {
+  margin: 0;
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #cfcac0;
+}
+
+.xp-scroll-hint {
+  position: absolute;
+  bottom: 6vh;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  color: #cfcac0;
+}
+
+.xp-scroll-hint-line {
+  width: 1px;
+  height: 36px;
+  background: linear-gradient(#ff4d5a, transparent);
+}
+
+.xp-panel-profile {
+  top: 20vh;
+  right: clamp(24px, 6vw, 96px);
+  left: auto;
+  text-align: left;
+}
+
+.xp-panel-projects {
+  bottom: 14vh;
+  left: clamp(24px, 6vw, 96px);
+}
+
+.xp-panel-kicker {
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #ff4d5a;
+  margin: 0 0 0.75rem;
+}
+
+.xp-panel-body {
+  font-size: clamp(0.95rem, 1.6vw, 1.15rem);
+  line-height: 1.5;
+  color: #f4f1ec;
+  margin: 0;
+}
+
+.xp-debug-hud {
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  z-index: 100;
+  background: rgba(10, 10, 10, 0.85);
+  border: 1px solid rgba(185, 160, 255, 0.4);
+  color: #f4f1ec;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  line-height: 1.5;
+  padding: 10px 14px;
+  border-radius: 6px;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.xp-fallback {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: clamp(24px, 6vw, 96px);
+  background: #0a0a0a;
+  color: #f4f1ec;
+}
+
+@media (max-width: 768px) {
+  .xp-scroll-space {
+    height: 480vh;
+  }
+
+  .xp-panel {
+    max-width: 92vw;
+  }
+
+  .xp-panel-hero {
+    top: 10vh;
+    left: 6vw;
+  }
+
+  .xp-panel-profile {
+    top: auto;
+    bottom: 30vh;
+    left: 6vw;
+    right: auto;
+  }
+
+  .xp-panel-projects {
+    bottom: 8vh;
+    left: 6vw;
+  }
+
+  .xp-name {
+    font-size: clamp(2.4rem, 11vw, 3.4rem);
+  }
+
+  .xp-panel-body {
+    font-size: 0.9rem;
+  }
+}
